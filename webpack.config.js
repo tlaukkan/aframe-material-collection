@@ -23,10 +23,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.worker\.ts$/,
-                use: { loader: 'worker-loader', options: { inline: true, fallback: false, publicPath: '/' } }
-            },
-            {
                 test: /\.ts?$/,
                 exclude: [/(node_modules)/,/(node)/,/(lib)/],
                 loader: "ts-loader"

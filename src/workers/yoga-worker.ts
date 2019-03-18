@@ -71,6 +71,7 @@ ctx.addEventListener('message', event => {
             ctx.postMessage({uuid:event.data.uuid});
             break;
         case "get-layout":
+            let startTimeMillis = new Date().getTime();
             let results = {content_height:0} as any;
             let traverse = (node: any)=>{
                 results[node.uuid] = {
@@ -92,6 +93,7 @@ ctx.addEventListener('message', event => {
                 traverse(nodes[event.data.parentUuid]);
             }
             ctx.postMessage({uuid:event.data.uuid,data:results});
+            console.log("Get layout took: " + (new Date().getTime() - startTimeMillis) + " ms.");
             break;
         case "reset-layout":
             if(event.data.parentUuid&&nodes.hasOwnProperty(event.data.parentUuid)){

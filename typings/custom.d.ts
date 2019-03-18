@@ -1,8 +1,8 @@
 // typings/custom.d.ts
-declare module "worker-loader!*" {
-    class WebpackWorker extends Worker {
+declare module "worker-loader?inline=true&name=yoga-worker.js!*" {
+    class YogaWorker extends Worker {
         constructor();
     }
 
-    export default WebpackWorker;
+    export default YogaWorker;
 }
