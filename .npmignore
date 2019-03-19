@@ -1,0 +1,16 @@
+.idea
+.gitignore
+*.iml
+karma.config.js
+demo.gif
+DOCS.md
+README.md
+gh-pages.bat
+tsconfig.json
+webpack.config.js
+built/test
+node_modules
+src
+test
+dist/*.html
+archive

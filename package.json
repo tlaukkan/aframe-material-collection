@@ -2,6 +2,8 @@
   "name": "@tlaukkan/aframe-material-collection-ts",
   "version": "0.5.1",
   "description": "Material UI based primitives and components for use in your aframe projects.",
+  "main": "built/src/index.js",
+  "types": "built/src/index.d.ts",
   "homepage": "https://github.com/shaneharris/aframe-material-collection",
   "keywords": [
     "AFRAME",

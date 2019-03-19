@@ -1,12 +1,23 @@
-/**
- * Application entry point
- * @author Shane Harris
- */
+export {MaterialUiSystem} from "./systems/MaterialUiSystem";
+export {Border} from "./components/Border";
+export {Button} from "./components/Button";
+export {Checkbox} from "./components/Checkbox";
+export {ColorPicker} from "./components/ColorPicker";
+export {CurvedPlane} from "./components/CurvedPlane";
+export {DoubleClick} from "./components/DoubleClick";
+export {Icon} from "./components/Icon";
+export {InputText} from "./components/InputText";
+export {Modal} from "./components/Modal";
+export {MouseShim} from "./components/MouseShim";
+export {NumberComponent} from "./components/NumberComponent";
+export {Radio} from "./components/Radio";
+export {Ripple} from "./components/Ripple";
+export {Rounded} from "./components/Rounded";
+export {Slider} from "./components/Slider";
+export {Switch} from "./components/Switch";
+export {Toast} from "./components/Toast";
+export {Yoga} from "./components/Yoga";
+export {UI} from "./components/UI";
+export {ScrollPane} from "./components/ScrollPane";
+export {registerMaterialUiSystem} from "./ui";
 
-import {registerMaterialUiSystem} from "./ui";
-
-if (typeof AFRAME === 'undefined') {
-    throw 'aframe-material-collection requires AFRAME to be loaded first. - <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>';
-}
-
-registerMaterialUiSystem();

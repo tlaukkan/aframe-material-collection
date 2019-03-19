@@ -3,8 +3,8 @@ const webpack = require("webpack");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = {
     entry: {
-        "aframe-material-collection": "./src/index.ts",
-        "aframe-material-collection.min": "./src/index.ts"
+        "aframe-material-collection": "./src/entry.ts",
+        "aframe-material-collection.min": "./src/entry.ts"
      },
     mode: "development",
     devtool: "source-map",
