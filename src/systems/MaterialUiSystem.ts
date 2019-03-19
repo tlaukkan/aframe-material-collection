@@ -29,6 +29,7 @@ export class MaterialUiSystem extends AbstractSystemController {
     }
 
     tick(time: number, timeDelta: number): void {
+        TWEEN.update();
     }
 
     isFirstOrLastChange(){

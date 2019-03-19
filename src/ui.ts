@@ -1,3 +1,4 @@
+(window as any).TWEEN = require('@tweenjs/tween.js');
 
 import './primitives/button';
 import './primitives/fab_button';

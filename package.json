@@ -13,8 +13,9 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
+    "build:typescript": "tsc",
     "test": "karma start karma.config.js",
-    "prepublishOnly": "npm run build && npm tsc"
+    "prepublishOnly": "npm run build && npm run build:typescript"
   },
   "repository": {
     "type": "git",
@@ -46,8 +47,10 @@
   "author": "Shane Harris,Tommi Laukkanen",
   "license": "MIT",
   "dependencies": {
+    "@tweenjs/tween.js": "^16.3.5",
     "@types/aframe": "^0.8.2",
     "@types/three": "^0.93.18",
+    "@types/tweenjs": "^1.0.0",
     "aframe-typescript-boilerplate": "^0.0.4",
     "typeflex": "0.0.1",
     "worker-loader": "^2.0.0"
