@@ -1,6 +1,6 @@
 import {Component, Entity} from "aframe";
 import {ComponentControllerDefinition} from "aframe-typescript-boilerplate/built";
-import {Math, Matrix4, Mesh, Object3D, Plane, Shader, Vector3} from "three";
+import {Math, Matrix4, Mesh, Object3D, Plane, Quaternion, Shader, Vector3} from "three";
 import {ALIGN_AUTO, FLEX_DIRECTION_ROW, JUSTIFY_FLEX_START, WRAP_WRAP} from "typeflex";
 import YogaWorker from 'worker-loader?inline=true&name=yoga-worker.js!../workers/yoga-worker';
 import {UiElement} from "./UiElement";
@@ -170,7 +170,9 @@ export class ScrollPane extends UiElement {
         ownUiSceneWorldPosition.copy(ownWorldPosition).sub(uiWorldPosition);
 
         const uiSceneWorldMatrix = new Matrix4();
-        uiSceneWorldMatrix.makeRotationFromQuaternion(ui.object3D.getWorldQuaternion(ui.object3D.quaternion));
+        const uiQuaternion = new Quaternion();
+        uiQuaternion.copy(ui.object3D.quaternion);
+        uiSceneWorldMatrix.makeRotationFromQuaternion(ui.object3D.getWorldQuaternion(uiQuaternion));
         uiSceneWorldMatrix.setPosition(ownUiSceneWorldPosition);
 
         this.content_clips[0].applyMatrix4(uiSceneWorldMatrix);
