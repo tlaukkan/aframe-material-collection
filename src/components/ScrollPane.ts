@@ -1,6 +1,6 @@
 import {Component, Entity} from "aframe";
 import {ComponentControllerDefinition} from "aframe-typescript-boilerplate/built";
-import {Math, Mesh, Object3D, Plane, Shader, Vector3} from "three";
+import {Math, Matrix4, Mesh, Object3D, Plane, Shader, Vector3} from "three";
 import {ALIGN_AUTO, FLEX_DIRECTION_ROW, JUSTIFY_FLEX_START, WRAP_WRAP} from "typeflex";
 import YogaWorker from 'worker-loader?inline=true&name=yoga-worker.js!../workers/yoga-worker';
 import {UiElement} from "./UiElement";
@@ -154,16 +154,34 @@ export class ScrollPane extends UiElement {
 
     updateContentClips(){
         this.component.el.sceneEl!!.object3D.updateMatrixWorld(false);
+
         // update content clips world positions from this current element.
         this.content_clips[0].set(new Vector3( 0, 1, 0 ), (this.data.height/2));
         this.content_clips[1].set(new Vector3( 0, -1, 0 ), (this.data.height/2));
         this.content_clips[2].set(new Vector3( -1, 0, 0 ), (this.data.width/2));
         this.content_clips[3].set(new Vector3( 1, 0, 0 ), (this.data.width/2));
+
+        const ui = this.entity.closest("a-ui") as Entity;
+        const uiWorldPosition = new Vector3();
+        ui.object3D.getWorldPosition(uiWorldPosition);
+        const ownWorldPosition = new Vector3();
+        this.entity.object3D.getWorldPosition(ownWorldPosition);
+        const ownUiSceneWorldPosition = new Vector3();
+        ownUiSceneWorldPosition.copy(ownWorldPosition).sub(uiWorldPosition);
+
+        const uiSceneWorldMatrix = new Matrix4();
+        uiSceneWorldMatrix.setPosition(ownUiSceneWorldPosition);
+
+        this.content_clips[0].applyMatrix4(uiSceneWorldMatrix);
+        this.content_clips[1].applyMatrix4(uiSceneWorldMatrix);
+        this.content_clips[2].applyMatrix4(uiSceneWorldMatrix);
+        this.content_clips[3].applyMatrix4(uiSceneWorldMatrix);
+
         //this.component.el.sceneEl.object3D.updateMatrixWorld();
-        this.content_clips[0].applyMatrix4(this.component.el.object3D.matrixWorld);
+        /*this.content_clips[0].applyMatrix4(this.component.el.object3D.matrixWorld);
         this.content_clips[1].applyMatrix4(this.component.el.object3D.matrixWorld);
         this.content_clips[2].applyMatrix4(this.component.el.object3D.matrixWorld);
-        this.content_clips[3].applyMatrix4(this.component.el.object3D.matrixWorld);
+        this.content_clips[3].applyMatrix4(this.component.el.object3D.matrixWorld);*/
 
     }
     async setContent(body: string,noAutoReload: boolean){

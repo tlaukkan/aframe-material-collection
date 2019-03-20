@@ -1,7 +1,7 @@
 <!doctype html>
 <head>
     <meta charset="utf-8">
-    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
     <script src="aframe-material-collection.js"> </script>
     <title>Aframe Material Collection - Minimal Example</title>
 </head>
@@ -15,7 +15,8 @@
         <a-entity id="cursor" cursor="rayOrigin: mouse" ui-mouse-shim raycaster="far: 30; objects: .intersect;"></a-entity>
     </a-entity>
 
-    <a-ui panel-width="6" panel-height="3" panel-position="0 0 -2">
+    <a-entity position="2 0 -2">
+    <a-ui panel-width="6" panel-height="3" panel-position="0 0 0">
 
         <a-ui-scroll-pane position="0 0 -0.1" height="1.5" scroll-z-offset="0.001" look-controls-el="#camera">
             <a-entity class="container">
@@ -214,7 +215,7 @@
         <a-ui-toast id="toastMessage" position="1 -0.4 0.1" visible="false"></a-ui-toast>
 
     </a-ui>
-
+    </a-entity>
 
 </a-scene>
 </body>
