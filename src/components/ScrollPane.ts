@@ -167,17 +167,17 @@ export class ScrollPane extends UiElement {
         const ownWorldPosition = new Vector3();
         this.entity.object3D.getWorldPosition(ownWorldPosition);
         const ownUiSceneWorldPosition = new Vector3();
-        ownUiSceneWorldPosition.copy(ownWorldPosition);
-        ownUiSceneWorldPosition.z = 0;
-        ownUiSceneWorldPosition.sub(uiWorldPosition);
+        ownUiSceneWorldPosition.copy(ownWorldPosition).sub(uiWorldPosition);
 
         const uiSceneWorldMatrix = new Matrix4();
+        uiSceneWorldMatrix.makeRotationFromQuaternion(this.component.el.sceneEl!!.object3D.quaternion);
         uiSceneWorldMatrix.setPosition(ownUiSceneWorldPosition);
 
         this.content_clips[0].applyMatrix4(uiSceneWorldMatrix);
         this.content_clips[1].applyMatrix4(uiSceneWorldMatrix);
         this.content_clips[2].applyMatrix4(uiSceneWorldMatrix);
         this.content_clips[3].applyMatrix4(uiSceneWorldMatrix);
+
 
         //this.component.el.sceneEl.object3D.updateMatrixWorld();
         /*this.content_clips[0].applyMatrix4(this.component.el.object3D.matrixWorld);
