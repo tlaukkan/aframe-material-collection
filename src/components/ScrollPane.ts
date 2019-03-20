@@ -203,7 +203,7 @@ export class ScrollPane extends UiElement {
                     this.ui.clearObject(child.object3D);
                 }
                 this.container.removeChild(child);
-                (this.container as any).firstChild = null;
+                //(this.container as any).firstChild = null;
             }
             // Set the content in the scroll pane.
             return new Promise(resolve=>{
