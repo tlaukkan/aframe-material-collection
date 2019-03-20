@@ -152,6 +152,12 @@ export class ScrollPane extends UiElement {
         (this.component.el as any).scroll = this.scroll.bind(this);
     }
 
+    remove(): void {
+        this.setContent("", true).catch(e => {
+            console.error("Error in ScrollPanel remove clearing content.", e);
+        });
+    }
+
     updateContentClips(){
         this.component.el.sceneEl!!.object3D.updateMatrixWorld(false);
 
