@@ -167,7 +167,9 @@ export class ScrollPane extends UiElement {
         const ownWorldPosition = new Vector3();
         this.entity.object3D.getWorldPosition(ownWorldPosition);
         const ownUiSceneWorldPosition = new Vector3();
-        ownUiSceneWorldPosition.copy(ownWorldPosition).sub(uiWorldPosition);
+        ownUiSceneWorldPosition.copy(ownWorldPosition);
+        ownUiSceneWorldPosition.z = 0;
+        ownUiSceneWorldPosition.sub(uiWorldPosition);
 
         const uiSceneWorldMatrix = new Matrix4();
         uiSceneWorldMatrix.setPosition(ownUiSceneWorldPosition);
