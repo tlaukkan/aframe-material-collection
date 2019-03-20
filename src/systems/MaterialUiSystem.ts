@@ -14,6 +14,9 @@ export class MaterialUiSystem extends AbstractSystemController {
     changes: any = {};
     changing: boolean = false;
 
+    onFocus: () => void = () => {};
+    onFocusOut: () => void = () => {};
+
     constructor(system: System, scene: Scene, data: any) {
         super(system, scene, data);
     }

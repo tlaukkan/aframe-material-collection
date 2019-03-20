@@ -490,6 +490,11 @@ export class InputText extends UiElement {
         return this.text.object3D.worldToLocal((e.detail as any).intersection.point.clone()).x
     }
     playPauseCamera(method: string){
+        if (method === 'pause') {
+            this.ui.onFocus();
+        } else {
+            this.ui.onFocusOut();
+        }
         let el = this.data.cameraEl;
         if (el&&el.components[this.data.lookControlsComponent]) {
             el.components[this.data.lookControlsComponent][method]();
