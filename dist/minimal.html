@@ -15,8 +15,8 @@
         <a-entity id="cursor" cursor="rayOrigin: mouse" ui-mouse-shim raycaster="far: 30; objects: .intersect;"></a-entity>
     </a-entity>
 
-    <a-entity position="2 0 -2">
-    <a-ui panel-width="6" panel-height="3" panel-position="0 0 0">
+    <a-entity position="0 0 -0.8">
+    <a-ui panel-size="2 1" panel-alpha="0.9" panel-position="0 0 0">
 
         <a-ui-scroll-pane position="0 0 -0.1" height="1.5" scroll-z-offset="0.001" look-controls-el="#camera">
             <a-entity class="container">
@@ -216,6 +216,10 @@
 
     </a-ui>
     </a-entity>
+
+    <a-box position="0 0 -2" />
+
+    <a-box position="1 0 -4" color="red"/>
 
 </a-scene>
 </body>

@@ -426,9 +426,10 @@ export class InputText extends UiElement {
         this.carret = document.createElement('a-box');
         this.carret.setAttribute('width',0.01);
         this.carret.setAttribute('height',0.12);
-        this.carret.setAttribute('depth',0.00001);
-        this.carret.setAttribute('transparent',true);
-        this.carret.setAttribute('opacity',0);
+        this.carret.setAttribute('depth',0.1);
+        this.carret.setAttribute('visible',false);
+        //this.carret.setAttribute('transparent',true);
+        //this.carret.setAttribute('opacity',0);
         this.carret.setAttribute('shader','flat');
         this.carret.className = 'no-yoga-layout';
         this.carret.setAttribute('color','#009688');
@@ -442,6 +443,8 @@ export class InputText extends UiElement {
         this.backing.setAttribute('height',this.data.height);
         this.backing.setAttribute('depth',0.00001);
         this.backing.setAttribute('color',this.data.backgroundColor);
+        this.backing.setAttribute('opacity', 0.5);
+        this.backing.setAttribute('transparent', true);
         this.backing.setAttribute('shader','flat');
         this.container.appendChild(this.backing);
 
@@ -462,9 +465,9 @@ export class InputText extends UiElement {
 
     }
     setupCarret(){
-        let material = ((this.carret.getObject3D('mesh') as Mesh).material as MeshLambertMaterial);
+        //let material = ((this.carret.getObject3D('mesh') as Mesh).material as MeshLambertMaterial);
         this.carretInterval = setInterval(()=>{
-            material.opacity = material.opacity?0:1;
+            this.carret.object3D.visible = this.carret.object3D.visible?false:true;
             this.ui.isChanging(this.component.el.sceneEl,this.text.object3D.uuid);
         },350);
     }
