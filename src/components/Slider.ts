@@ -86,7 +86,7 @@ export class Slider extends UiElement {
         });
         // Pause/play camera look controls
         const playPauseCamera = (method: string) =>{
-            if (method === 'pause') {
+            if (method == 'pause') {
                 this.ui.onFocus();
             } else {
                 this.ui.onFocusOut();
