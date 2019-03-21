@@ -1,6 +1,8 @@
 import {Scene, System} from "aframe";
 import {AbstractSystemController} from "aframe-typescript-boilerplate/built/system/AbstractSystemController";
-import {registerComponentController, SystemControllerDefinition} from "aframe-typescript-boilerplate/built";
+import {SystemControllerDefinition} from "aframe-typescript-boilerplate/built";
+import {ColorTheme} from "../theme/ColorTheme";
+import {DarkColorTheme} from "../theme/DarkColorTheme";
 
 export class MaterialUiSystem extends AbstractSystemController {
 
@@ -16,6 +18,9 @@ export class MaterialUiSystem extends AbstractSystemController {
 
     onFocus: () => void = () => {};
     onFocusOut: () => void = () => {};
+
+    colorTheme: ColorTheme = new DarkColorTheme();
+    colorThemes: Map<string, ColorTheme> = new Map();
 
     constructor(system: System, scene: Scene, data: any) {
         super(system, scene, data);
@@ -101,6 +106,20 @@ export class MaterialUiSystem extends AbstractSystemController {
                 child.geometry.dispose();
             }
         });
+    }
+
+    registerColorTheme(colorTheme: ColorTheme) {
+        this.colorThemes.set(colorTheme.name, colorTheme);
+    }
+
+    setColorTheme(colorThemeName: string) {
+        if (this.colorThemes.has(colorThemeName)) {
+            this.colorTheme = this.colorThemes.get(colorThemeName)!!;
+        }
+    }
+
+    getColorTheme() {
+        return this.colorTheme;
     }
 
 }
