@@ -3,7 +3,7 @@ import {ComponentControllerDefinition} from "aframe-typescript-boilerplate/built
 import {
     Camera,
     Mesh,
-    MeshBasicMaterial,
+    MeshBasicMaterial, NearestMipMapLinearFilter,
     OrthographicCamera,
     PerspectiveCamera,
     Raycaster,
@@ -26,7 +26,7 @@ export class UI extends UiElement {
             panelColor:{default:'#ffffff'},
             panelOpacity:{type:'number',default:1},
             renderSize:{type:'vec2',default:{x:4,y:2}},
-            renderResolution:{type:'vec2',default:{x:2048,y:1024}},
+            renderResolution:{type:'vec2',default:{x:2048,y:2048}},
             debugRaycaster:{type:'boolean',default: false},
             fps:{type:'number',default:45},
             intersectableClass:{default:'intersectable'},
@@ -126,6 +126,9 @@ export class UI extends UiElement {
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).map = this.renderTarget.texture;
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).transparent = true;
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).opacity = this.data.panelOpacity;
+            ((this.meshEl.getObject3D('mesh') as Mesh).material as any).map.anisotropy = 16;
+            //((this.meshEl.getObject3D('mesh') as Mesh).material as any).map.minFilter = NearestMipMapLinearFilter;
+
             // emit ready event for anythng wanting to use this texture.
             this.meshEl.emit('texture-ready',this.renderTarget.texture);
             this.meshTextureSet = true;
