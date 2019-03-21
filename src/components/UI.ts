@@ -20,11 +20,12 @@ export class UI extends UiElement {
             uiPanel: {type: 'selector'},
             lookControlsEl: {type: 'selector'},
             lookControlsComponent:{default:'look-controls'},
-            panelPosition:{type:'vec3',default:{x:0,y:1.6,z:-1}},
+            panelPosition:{type:'vec3',default:{x:0,y:0,z:0}},
             panelSize:{type:'vec2',default:{x:6,y:3}},
             panelDepth:{type:'number',default:0.03},
             panelColor:{default:'#ffffff'},
-            panelAlpha:{type:'number',default:1},
+            panelOpacity:{type:'number',default:1},
+            renderSize:{type:'vec2',default:{x:4,y:2}},
             renderResolution:{type:'vec2',default:{x:2048,y:1024}},
             debugRaycaster:{type:'boolean',default: false},
             fps:{type:'number',default:45},
@@ -76,7 +77,8 @@ export class UI extends UiElement {
         // Remove this object from the scene to be rendered separately.
         this.component.el.object3D.parent!!.remove(this.component.el.object3D);
         // Setup fixed camera nd render target.
-        this.camera = new OrthographicCamera( -1.5, 1.5, 0.75, -0.75, -2, 2);
+        this.camera = new OrthographicCamera( -this.data.renderSize.x/2, this.data.renderSize.x/2, this.data.renderSize.y/2, -this.data.renderSize.y/2, -2.2, 2.2);
+        this.camera.position.z = 1.1;
         // Setup render target
         this.renderTarget = new WebGLRenderTarget(this.data.renderResolution.x,this.data.renderResolution.y);
 
@@ -95,6 +97,7 @@ export class UI extends UiElement {
         });
         // Setup raycaster for relaying mouse/keyboard events
         this.raycaster = new Raycaster();
+        this.raycaster.far = 10;
         this.helper = new Mesh(new SphereGeometry(0.01),new MeshBasicMaterial({color:'#ff0000'}));
         // Add cursor helper to object
         if(this.data.debugRaycaster)this.component.el.object3D.add(this.helper);
@@ -122,6 +125,7 @@ export class UI extends UiElement {
             // Set the texture to the ui panel mesh.
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).map = this.renderTarget.texture;
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).transparent = true;
+            ((this.meshEl.getObject3D('mesh') as Mesh).material as any).opacity = this.data.panelOpacity;
             // emit ready event for anythng wanting to use this texture.
             this.meshEl.emit('texture-ready',this.renderTarget.texture);
             this.meshTextureSet = true;
@@ -137,7 +141,7 @@ export class UI extends UiElement {
         let clearAlpha = renderer.getClearAlpha();
         let clearColor = renderer.getClearColor();
 
-        renderer.setClearColor( this.data.panelColor, this.data.panelAlpha);
+        renderer.setClearColor( this.colorTheme.background, 1);
         (renderer as any).render(this.component.el.object3D,this.camera,this.renderTarget);
 
         renderer.setClearColor(clearColor);
@@ -234,8 +238,8 @@ export class UI extends UiElement {
     setupUIPanel(){
         let uiPanel = document.createElement('a-plane');
         uiPanel.setAttribute('side', 'double');
-        //uiPanel.setAttribute('color', '#2a2a2e');
-        uiPanel.setAttribute('color', this.data.panelColor);
+        //uiPanel.setAttribute('color', '#ffffff');
+        //uiPanel.setAttribute('color', this.colorTheme.background);
         uiPanel.setAttribute('shader', 'flat');
         uiPanel.setAttribute('class', 'intersect');
         uiPanel.setAttribute('position',this.data.panelPosition);

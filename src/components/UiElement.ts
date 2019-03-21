@@ -2,6 +2,7 @@ import {Component, Entity} from "aframe";
 import {AbstractComponentController} from "aframe-typescript-boilerplate/built/component/AbstractComponentController";
 import {ComponentControllerDefinition} from "aframe-typescript-boilerplate/built";
 import {MaterialUiSystem} from "../systems/MaterialUiSystem";
+import {ColorTheme} from "../theme/ColorTheme";
 
 export class UiElement extends AbstractComponentController {
 
@@ -29,5 +30,9 @@ export class UiElement extends AbstractComponentController {
     play(): void {}
 
     tick(time: number, timeDelta: number): void {}
+
+    public get colorTheme(): ColorTheme {
+        return this.ui.getColorTheme();
+    }
 
 }

@@ -12,8 +12,8 @@ export class DarkColorTheme implements ColorTheme {
     secondaryOn = "#ffffff";
     error = "#b00020";
     errorOn = "#ffffff";
-    surface = "#5b5b5b";
+    surface = "#323232";
     surfaceOn = "#ffffff";
-    background = "#5b5b5b";
+    background = "#323232";
     backgroundOn = "#ffffff";
 }

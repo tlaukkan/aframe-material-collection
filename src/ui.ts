@@ -14,7 +14,8 @@ import './primitives/number-input';
 import './primitives/int-input';
 import './primitives/password-input';
 import './primitives/scroll-pane';
-import './primitives/renderer';
+import './primitives/ui';
+import './primitives/text';
 
 import * as Package from '../package.json';
 import {registerComponentController, registerSystemController} from "aframe-typescript-boilerplate/built";
@@ -35,6 +36,7 @@ import {Ripple} from "./components/Ripple";
 import {Rounded} from "./components/Rounded";
 import {Slider} from "./components/Slider";
 import {Switch} from "./components/Switch";
+import {Text} from "./components/Text";
 import {Toast} from "./components/Toast";
 import {Yoga} from "./components/Yoga";
 import {UI} from "./components/UI";
@@ -61,6 +63,7 @@ export function registerMaterialUiSystem() {
     registerComponentController(Rounded.DEFINITION);
     registerComponentController(Slider.DEFINITION);
     registerComponentController(Switch.DEFINITION);
+    registerComponentController(Text.DEFINITION);
     registerComponentController(Toast.DEFINITION);
     registerComponentController(Yoga.DEFINITION);
     registerComponentController(UI.DEFINITION);

@@ -316,6 +316,7 @@ export class ScrollPane extends UiElement {
         let geo = parent.getAttribute('geometry');
         switch(parent.tagName){
             case "A-TEXT":
+            case "A-UI-TEXT":
             case "A-TRIANGLE":
             case "A-UI-TEXT-INPUT":
             case "A-UI-NUMBER-INPUT":
