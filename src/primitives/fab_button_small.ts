@@ -18,7 +18,7 @@ export = AFRAME.registerPrimitive('a-ui-fab-button-small', AFRAME.utils.extendDe
             shader: 'flat',
         },
         "ui-btn":{},
-        "ui-ripple":{size:{x:0.125,y:0.125},zIndex:-0.001,color:'#ff0000'},
+        "ui-ripple":{size:{x:0.125,y:0.125},zIndex:0.002,color:'#ff0000'},
         "ui-icon":{size:{x:0.075,y:0.075}, src:'icons/sort_white_64dp.png'}
     },
     mappings: {
