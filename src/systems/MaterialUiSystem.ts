@@ -122,4 +122,11 @@ export class MaterialUiSystem extends AbstractSystemController {
         return this.colorTheme;
     }
 
+    /**
+     * Time to wait for UI changes to settle.
+     */
+    public get maxChangePropagationTime() {
+        return 5000;
+    }
+
 }

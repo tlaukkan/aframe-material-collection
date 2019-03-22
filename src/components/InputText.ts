@@ -396,7 +396,7 @@ export class InputText extends UiElement {
 
 
         this.container = document.createElement('a-entity');
-        this.container.setAttribute('position',(this.data.width/2)+' 0 0');
+        this.container.setAttribute('position',new Vector3((this.data.width/2),0, 0));
 
         this.text = document.createElement('a-text');
         this.text.setAttribute('color',this.colorTheme.primary);

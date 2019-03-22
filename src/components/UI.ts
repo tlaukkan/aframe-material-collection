@@ -31,7 +31,7 @@ export class UI extends UiElement {
             fps:{type:'number',default:45},
             intersectableClass:{default:'intersectable'},
             debug:{type:'boolean',default:false},
-            initDelay:{type:'int',default:500},
+            initDelay:{type:'int',default:1000},
         },
         /* Multiple */ false,
         /* Receive ticks */ true,
@@ -114,7 +114,7 @@ export class UI extends UiElement {
             this.ui.isChanging(this.component.el.sceneEl,this.component.el.object3D.uuid);
             setTimeout(()=>{
                 this.ui.stoppedChanging(this.component.el.object3D.uuid);
-            },250);
+            }, this.ui.maxChangePropagationTime);
         },this.data.initDelay);
     }
 
@@ -248,6 +248,7 @@ export class UI extends UiElement {
         uiPanel.setAttribute('position',this.data.panelPosition);
         uiPanel.setAttribute('width',this.data.panelSize.x);
         uiPanel.setAttribute('height',this.data.panelSize.y);
+
         if (this.data.panelDepth) {
             uiPanel.setAttribute('ui-curved-plane','depth: ' + this.data.panelDepth + ';');
         }

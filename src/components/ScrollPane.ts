@@ -249,7 +249,8 @@ export class ScrollPane extends UiElement {
                     this.container.object3D.position.y = this.data.height/2;
                     this.handle.setAttribute('position',((this.data.width/2)+this.data.scrollPadding)+' '+(this.data.height-(this.data.height*this.handleSize))/2+' '+(this.data.scrollZOffset+0.0005));
                 }
-                setTimeout(()=>this.ui.stoppedChanging(this.currentUuid),3000);
+                setTimeout(()=>this.ui.stoppedChanging(this.currentUuid), this.ui.maxChangePropagationTime);
+                //this.ui.stoppedChanging(this.currentUuid);
             });
     }
     mouseMove(e: MouseEvent){
@@ -306,6 +307,7 @@ export class ScrollPane extends UiElement {
         this.handle.setAttribute('height',this.data.height);
         this.handle.setAttribute('color',this.colorTheme.primaryLight);
         this.handle.setAttribute('shader','flat');
+        //this.handle.setAttribute('ui-rounded','borderRadius:0.025');
         this.component.el.appendChild(this.handle);
     }
 
@@ -444,7 +446,14 @@ export class ScrollPane extends UiElement {
                         y:(layout[(child as any).yoga_uuid].top/100)+(layout[(child as any).yoga_uuid].height/200),
                     };
                 }
-                child.setAttribute('position',position.x+' '+(-position.y)+' 0.0001');
+                child.setAttribute('position', new Vector3(position.x, (-position.y),0.0001));
+                /*if (child.object3D) {
+                    child.object3D.position.x = position.x;
+                    child.object3D.position.y = position.y;
+                    child.object3D.position.z = 0.0001;
+                } else {
+                    child.setAttribute('position',position.x+' '+(-position.y)+' 0.0001');
+                }*/
             }
             this.updateYoga(child,layout);
         }
