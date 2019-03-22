@@ -230,6 +230,7 @@ export class ScrollPane extends UiElement {
         this.currentUuid = Math.generateUUID();
         this.ui.isChanging(this.component.el.sceneEl,this.currentUuid);
         this.setChildClips();
+        await this.initializeLayout(this.container);
         await this.initialiseYoga(this.container);
         await sendMessage('get-layout',null,(this.container as any).yoga_uuid, undefined)
             .then(layout=>{
@@ -307,22 +308,28 @@ export class ScrollPane extends UiElement {
         this.component.el.appendChild(this.handle);
     }
 
-    async initialiseYoga(parent: Entity){
-        // Traverse the tree and setup Yoga layout nodes with default settings
-        // or settings specified in the elements yoga properties component.
-        parent = parent||this.container;
-
-        for (const key in parent.components) {
-            const uiElement = (parent.components[key] as any).controller as UiElement;
+    async initializeLayout(entity: Entity) {
+        for (const key in entity.components) {
+            const uiElement = (entity.components[key] as any).controller as UiElement;
             if (uiElement && uiElement.initLayout) {
                 await uiElement.initLayout();
             }
         }
 
+        for (const child of entity.childNodes) {
+            await this.initializeLayout(child as Entity);
+        }
+    }
+
+    async initialiseYoga(entity: Entity){
+        // Traverse the tree and setup Yoga layout nodes with default settings
+        // or settings specified in the elements yoga properties component.
+        entity = entity||this.container;
+
         // Automatically detect the entity width / height by the element tagname.
         let width = 0,height = 0;
-        let geo = parent.getAttribute('geometry');
-        switch(parent.tagName){
+        let geo = entity.getAttribute('geometry');
+        switch(entity.tagName){
             case "A-TEXT":
             case "A-UI-TEXT":
             case "A-TRIANGLE":
@@ -331,23 +338,23 @@ export class ScrollPane extends UiElement {
             case "A-UI-INT-INPUT":
             case "A-UI-INPUT-TEXT":
             case "A-UI-PASSWORD-INPUT":
-                width = parent.getAttribute('width');
-                height = parent.getAttribute('height');
+                width = entity.getAttribute('width');
+                height = entity.getAttribute('height');
                 break;
             case "A-UI-BUTTON":
             case "A-PLANE":
             case "A-ENTITY":
-                width = Number(geo?geo.width:parent.getAttribute('width'));
-                height = Number(geo?geo.height:parent.getAttribute('height'));
+                width = Number(geo?geo.width:entity.getAttribute('width'));
+                height = Number(geo?geo.height:entity.getAttribute('height'));
                 break;
             case "A-UI-FAB-BUTTON":
             case "A-UI-FAB-BUTTON-SMALL":
             case "A-CIRCLE":
-                width = Number(geo?geo.radius*2:(parent.getAttribute('radius')||0)*2);
+                width = Number(geo?geo.radius*2:(entity.getAttribute('radius')||0)*2);
                 height = width;
                 break;
             case "A-RING":
-                width = Number(geo?geo["radius-outer"]*2:(parent.getAttribute('radius-outer')||0)*2);
+                width = Number(geo?geo["radius-outer"]*2:(entity.getAttribute('radius-outer')||0)*2);
                 height = width;
                 break;
             case "A-UI-SLIDER":
@@ -355,24 +362,24 @@ export class ScrollPane extends UiElement {
             case "A-UI-SWITCH":
             case "A-UI-CHECKBOX":
             case "A-UI-RADIO":
-                let componentName = parent.tagName.substr(2).toLowerCase();
-                width = parent.getAttribute(componentName).width;
-                height = parent.getAttribute(componentName).height;
+                let componentName = entity.tagName.substr(2).toLowerCase();
+                width = entity.getAttribute(componentName).width;
+                height = entity.getAttribute(componentName).height;
                 break;
         }
         // width = Math.round(width);
         // height = Math.round(height);
         //parent.yoga_node = Node.create();
-        let ui_yoga = parent.getAttribute("ui-yoga");
+        let ui_yoga = entity.getAttribute("ui-yoga");
         let properties = {} as any;
-        if(ui_yoga&&(parent as any).getYogaProperties){
-            properties = (parent as any).getYogaProperties();
+        if(ui_yoga&&(entity as any).getYogaProperties){
+            properties = (entity as any).getYogaProperties();
         }else{
             properties.setJustifyContent = JUSTIFY_FLEX_START;
             properties.setFlexDirection = FLEX_DIRECTION_ROW;
             properties.setAlignContent = ALIGN_AUTO;
             properties.setFlexWrap = WRAP_WRAP;
-            if(parent.parentElement&&(parent.parentElement as any).yoga_uuid){
+            if(entity.parentElement&&(entity.parentElement as any).yoga_uuid){
                 // Default margin if none set;
                 properties.setMarginRight = 5;
                 properties.setMarginBottom = 5;
@@ -392,16 +399,16 @@ export class ScrollPane extends UiElement {
         //     parent.parentElement.yoga_node.insertChild(parent.yoga_node,parent.parentElement.yoga_node.getChildCount());
         // }
         let promise;
-        if(parent.parentElement&&(parent.parentElement as any).yoga_uuid){
-            promise = sendMessage('add-node',properties,(parent.parentElement as any).yoga_uuid, undefined);
+        if(entity.parentElement&&(entity.parentElement as any).yoga_uuid){
+            promise = sendMessage('add-node',properties,(entity.parentElement as any).yoga_uuid, undefined);
         }else{
             promise = sendMessage('add-node',properties,null,this.data.width*100);
         }
         await promise.then(resp=>{
-            (parent as any).yoga_uuid = (resp as any).uuid;
+            (entity as any).yoga_uuid = (resp as any).uuid;
             let promises = new Array<any>();
-            for(let i = 0; i < parent.childNodes.length; i++) {
-                let child = parent.childNodes[i];
+            for(let i = 0; i < entity.childNodes.length; i++) {
+                let child = entity.childNodes[i];
                 if (child.nodeType === 1) {
                     if(!(child as any).classList.contains('no-yoga-layout')){
                         promises.push(this.initialiseYoga(child as Entity));
