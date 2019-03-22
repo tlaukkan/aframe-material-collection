@@ -122,8 +122,8 @@ export class Checkbox extends UiElement {
             this.rightLine.setAttribute('position','0.05 0 0');
             this.bottomLine.setAttribute('rotation','0 0 90');
             this.bottomLine.setAttribute('height',0.05);
-            this.bottomLine.setAttribute('color',this.data.selectedColor);
-            this.rightLine.setAttribute('color',this.data.selectedColor);
+            this.bottomLine.setAttribute('color',this.colorTheme.secondary);
+            this.rightLine.setAttribute('color',this.colorTheme.secondary);
         }else if(this.data.indeterminate){
             this.topLine.setAttribute('scale','0.000001 0.000001 0.000001');
             this.leftLine.setAttribute('scale','0.000001 0.000001 0.000001');
@@ -173,8 +173,8 @@ export class Checkbox extends UiElement {
             this.component.el.addEventListener('mousedown',this.clickHandler);
             this.topLine.setAttribute('color',this.data.unselectedColor);
             this.leftLine.setAttribute('color',this.data.unselectedColor);
-            this.rightLine.setAttribute('color',this.data.value?this.data.selectedColor:this.data.unselectedColor);
-            this.bottomLine.setAttribute('color',this.data.value?this.data.selectedColor:this.data.unselectedColor);
+            this.rightLine.setAttribute('color',this.data.value?this.colorTheme.secondary:this.data.unselectedColor);
+            this.bottomLine.setAttribute('color',this.data.value?this.colorTheme.secondary:this.data.unselectedColor);
         }
     };
     line(is_vertical: boolean){

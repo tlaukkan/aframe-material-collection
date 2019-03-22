@@ -242,7 +242,8 @@ export class ScrollPane extends UiElement {
 
                 this.handle.setAttribute('visible',this.handleSize!==1);
                 this.rail.setAttribute('visible',this.handleSize!==1);
-                this.rail.setAttribute('color',this.handleSize===1?'#efefef':'#fff');
+                this.rail.setAttribute('color',this.colorTheme.primaryDark);
+                this.rail.setAttribute("visible", this.handleSize===1? false : true);
                 this.handle.setAttribute('height',this.data.height*this.handleSize);
                 if(!should_not_scroll){
                     this.container.object3D.position.y = this.data.height/2;
@@ -303,7 +304,7 @@ export class ScrollPane extends UiElement {
         this.handle.setAttribute('class','handle '+this.data.intersectableClass);
         this.handle.setAttribute('width',0.1);
         this.handle.setAttribute('height',this.data.height);
-        this.handle.setAttribute('color',this.data.scrollHandleColor);
+        this.handle.setAttribute('color',this.colorTheme.primaryLight);
         this.handle.setAttribute('shader','flat');
         this.component.el.appendChild(this.handle);
     }

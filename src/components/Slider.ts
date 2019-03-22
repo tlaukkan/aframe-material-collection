@@ -61,7 +61,7 @@ export class Slider extends UiElement {
         // Setup handle circle entity.
         this.handleEl = document.createElement('a-circle');
         this.handleEl.setAttribute('radius',this.data.handleRadius);
-        this.handleEl.setAttribute('color',this.data.handleColor);
+        this.handleEl.setAttribute('color',this.colorTheme.secondary);
         this.handleEl.setAttribute('shader','flat');
         this.handleEl.setAttribute('ui-ripple','size:0.1 0.1;color:#999;fadeDelay:300;duration:500');
         this.handleEl.setAttribute('class',this.data.intersectableClass+' no-yoga-layout');
@@ -75,7 +75,7 @@ export class Slider extends UiElement {
         this.railEl.setAttribute('height','0.05');
         this.railEl.setAttribute('shader','flat');
         this.railEl.setAttribute('ui-rounded','borderRadius:0.025');
-        this.railEl.setAttribute('color',this.data.railColor);
+        this.railEl.setAttribute('color',this.colorTheme.primaryDark);
         this.railEl.setAttribute('class',this.data.intersectableClass+' no-yoga-layout');
         this.component.el.appendChild(this.railEl);
         // Wait for the rounded edge on the rail to load to clone the geometry for the
@@ -177,7 +177,7 @@ export class Slider extends UiElement {
         // Get the rounded shape geomtery.
         object.traverse(child=>{
             if((child as Mesh).geometry&&(child as Mesh).geometry.type==="ShapeBufferGeometry"){
-                this.progress = new Mesh((child as Mesh).geometry.clone(),new MeshBasicMaterial({color:this.data.progressColor}));
+                this.progress = new Mesh((child as Mesh).geometry.clone(),new MeshBasicMaterial({color:this.colorTheme.secondaryDark}));
                 this.progress.position.set(-this.data.width/2,0,0.0001);
                 this.progress.scale.set(0.00001,1,1);
                 this.component.el.object3D.add(this.progress);

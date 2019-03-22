@@ -28,6 +28,12 @@ export class Button extends UiElement {
 
     init(): void {
         // Store the current button z value for animating mouse events
+        if (!this.entity.hasAttribute("color")) {
+            this.entity.setAttribute("color", this.colorTheme.secondary);
+        }
+        if (!this.entity.hasAttribute("font-color")) {
+            this.entity.setAttribute("font-color", this.colorTheme.secondaryOn);
+        }
         this.defaultZ = this.component.el.object3D.position.z;
         // register input events for interaction
         if (!this.data.disabled) {

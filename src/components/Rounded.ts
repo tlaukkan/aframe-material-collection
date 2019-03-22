@@ -10,7 +10,7 @@ export class Rounded extends UiElement {
         /* Name */ "ui-rounded",
         /* Schema */ {
             borderRadius: {type: 'number', default: 0.01},
-            curveSegments:{type: 'int', default: 1},
+            curveSegments:{type: 'int', default: 5},
         },
         /* Multiple */ false,
         /* Receive ticks */ false,

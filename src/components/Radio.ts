@@ -41,7 +41,7 @@ export class Radio extends UiElement {
         this.component.el.addEventListener('loaded',()=>{
 
             let handle = `
-            <a-circle radius="`+this.data.selectedRadius+`" color="`+(this.data.disabled?this.data.disabledColor:this.data.selectedColor)+`" 
+            <a-circle radius="`+this.data.selectedRadius+`" color="`+(this.data.disabled?this.data.disabledColor:this.colorTheme.secondary)+`" 
             position="0 0 0" scale="0 0 0" shader="flat" class="no-yoga-layout" segments="6"></a-circle>`;
             this.component.el.insertAdjacentHTML('beforeend',handle);
             this.filled_circle = this.component.el.lastChild as Entity | null;

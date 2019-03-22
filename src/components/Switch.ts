@@ -54,7 +54,7 @@ export class Switch extends UiElement {
         // Setup rail entity.
         let rail = `<a-plane width="0.15" shader="flat" height="0.05" 
             ui-rounded="borderRadius:0.025" class="`+this.data.intersectableClass+` no-yoga-layout"
-            color="`+this.data.railColor+`" segments="6"></a-plane>`;
+            color="`+this.colorTheme.primaryDark+`" segments="6"></a-plane>`;
         this.component.el.insertAdjacentHTML('beforeend',rail);
         this.railEl = this.component.el.lastChild as Entity;
         // Wait for the rounded edge on the rail to load to clone the geometry for the
@@ -98,7 +98,7 @@ export class Switch extends UiElement {
             this.handleEl.setAttribute('color',this.data.handleDisabledColor);
         }else{
             this.handleEl.addEventListener('mousedown',this.clickHandler);
-            this.handleEl.setAttribute('color',this.data.handleColor);
+            this.handleEl.setAttribute('color',this.colorTheme.secondary);
         }
     }
     click(){
@@ -112,7 +112,7 @@ export class Switch extends UiElement {
         // Get the rounded shape geomtery.
         object.traverse(child=>{
             if((child as Mesh).geometry&&(child as Mesh).geometry.type==="ShapeBufferGeometry"){
-                this.progress = new Mesh((child as Mesh).geometry.clone(),new MeshBasicMaterial({color:this.data.progressColor}));
+                this.progress = new Mesh((child as Mesh).geometry.clone(),new MeshBasicMaterial({color:this.colorTheme.secondaryDark}));
                 this.progress.position.set(-0.075,0,0.001);
                 this.progress.scale.set(0.00001,1,1);
                 this.component.el.object3D.add(this.progress);
