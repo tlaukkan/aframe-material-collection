@@ -66,7 +66,7 @@ export class Slider extends UiElement {
         this.handleEl.setAttribute('ui-ripple','size:0.1 0.1;color:#999;fadeDelay:300;duration:500');
         this.handleEl.setAttribute('class',this.data.intersectableClass+' no-yoga-layout');
         this.handleEl.setAttribute('position',((-(this.data.width)/2)+this.data.handleRadius)+' 0 '+this.data.handleZIndex);
-        this.handleEl.setAttribute('segments',6);
+        this.handleEl.setAttribute('segments',10);
         this.component.el.appendChild(this.handleEl);
 
         // Setup rail entity.

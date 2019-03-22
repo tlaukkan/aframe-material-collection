@@ -45,7 +45,7 @@ export class Switch extends UiElement {
         this.height = 0.1;
         // Setup handle circle entity.
         let handle = `
-            <a-circle radius="0.055" shader="flat" color="`+this.data.handleColor+`" 
+            <a-circle radius="0.055" shader="flat" segments="10" color="`+this.data.handleColor+`" 
             ui-ripple="size:0.1 0.1;color:#999;fadeDelay:300;duration:500" class="`+this.data.intersectableClass+` no-yoga-layout"
             position="-0.05 0 `+this.data.handleZIndex+`" segments="6"></a-circle>`;
         this.component.el.insertAdjacentHTML('beforeend',handle);

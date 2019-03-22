@@ -13,7 +13,7 @@ export = AFRAME.registerPrimitive('a-ui-radio', AFRAME.utils.extendDeep({}, AFRA
             primitive:'ring',
             radiusInner:0.0575,
             radiusOuter:0.0675,
-            segmentsTheta:6
+            segmentsTheta:10
         },
         "material":{
             shader:'flat',
