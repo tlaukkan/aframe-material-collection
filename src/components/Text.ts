@@ -2,6 +2,7 @@ import {Component, Entity} from "aframe";
 import {AbstractComponentController} from "aframe-typescript-boilerplate/built/component/AbstractComponentController";
 import {ComponentControllerDefinition} from "aframe-typescript-boilerplate/built";
 import {UiElement} from "./UiElement";
+import {Mesh, PlaneGeometry} from "three";
 
 export class Text extends UiElement {
 
@@ -20,16 +21,73 @@ export class Text extends UiElement {
         super(component, entity, data);
     }
 
-    init(): void {
-        const width = this.getWidth();
-        this.entity.setAttribute("color", this.colorTheme.surfaceOn);
-        this.entity.setAttribute("wrap-count", 400 * width * 1 / this.data.fontSize);
+    wrapCount = 0;
+    layoutReady = false;
+    onLayoutReady: () => void = () => {};
 
-        /*this.addEventListener("textfontset", () => {
-            console.log((this.entity.components["text"] as any).currentFont.widthFactor);
-        })*/
+    init(): void {
+        this.entity.setAttribute("color", this.colorTheme.surfaceOn);
+        this.wrapCount = 400 * this.getWidth() * 1 / this.data.fontSize;
+        this.entity.setAttribute("wrap-count", this.wrapCount);
+
+        const fixedHeight = this.entity.hasAttribute("height");
+        const fontLoaded = (this.entity.components["text"] as any).currentFont;
+
+        if (fixedHeight) {
+            // Set layout ready as we have fixed height.
+            this.layoutReady = true;
+        } else {
+            if (fontLoaded) {
+                // Calculated dynamic height immediately.
+                this.setDynamicHeight();
+            } else {
+                // Delay until font loaded.
+                this.addEventListener("textfontset", () => {
+                    this.setDynamicHeight();
+                })
+            }
+        }
     }
 
+    async initLayout(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (this.layoutReady) {
+                resolve();
+                return;
+            }
+            this.onLayoutReady = () => {
+                resolve();
+            }
+        });
+    }
+
+    update(data: any, oldData: any): void {
+        super.update(data, oldData);
+    }
+
+
+    tick(time: number, timeDelta: number): void {
+        super.tick(time, timeDelta);
+    }
+
+    private setDynamicHeight() {
+        const textComponent = this.entity.components["text"] as any;
+        const geometry = textComponent.geometry;
+        const layout = geometry.layout;
+
+        const widthFactor = (this.entity.components["text"] as any).currentFont.widthFactor;
+        const wrapCount = this.wrapCount;
+
+        const textRenderWidth = ((0.5 + wrapCount) * widthFactor);
+        const textScale = this.getWidth() / textRenderWidth;
+
+        const height = textScale * (layout.height + layout.descender);
+
+        this.entity.setAttribute("height", height);
+        //console.log(height);
+        this.layoutReady = true;
+        this.onLayoutReady();
+    }
 
     private getWidth() : number {
         if (!this.entity.hasAttribute("width")) {
@@ -45,14 +103,5 @@ export class Text extends UiElement {
         } else {
             return parseFloat(element.getAttributeNode("width")!!.value);
         }
-    }
-
-    update(data: any, oldData: any): void {
-        super.update(data, oldData);
-    }
-
-
-    tick(time: number, timeDelta: number): void {
-        super.tick(time, timeDelta);
     }
 }

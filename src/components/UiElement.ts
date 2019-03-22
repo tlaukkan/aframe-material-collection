@@ -35,4 +35,8 @@ export class UiElement extends AbstractComponentController {
         return this.ui.getColorTheme();
     }
 
+    public async initLayout(): Promise<void> {
+
+    }
+
 }

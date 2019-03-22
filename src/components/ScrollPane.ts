@@ -311,6 +311,14 @@ export class ScrollPane extends UiElement {
         // Traverse the tree and setup Yoga layout nodes with default settings
         // or settings specified in the elements yoga properties component.
         parent = parent||this.container;
+
+        for (const key in parent.components) {
+            const uiElement = (parent.components[key] as any).controller as UiElement;
+            if (uiElement && uiElement.initLayout) {
+                await uiElement.initLayout();
+            }
+        }
+
         // Automatically detect the entity width / height by the element tagname.
         let width = 0,height = 0;
         let geo = parent.getAttribute('geometry');
