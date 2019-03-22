@@ -42,14 +42,14 @@ export class Radio extends UiElement {
 
             let handle = `
             <a-circle radius="`+this.data.selectedRadius+`" color="`+(this.data.disabled?this.data.disabledColor:this.colorTheme.secondary)+`" 
-            position="0 0 0" scale="0 0 0" shader="flat" class="no-yoga-layout" segments="20"></a-circle>`;
+            position="0 0 0" scale="0 0 0" shader="flat" class="no-yoga-layout" segments="10"></a-circle>`;
             this.component.el.insertAdjacentHTML('beforeend',handle);
             this.filled_circle = this.component.el.lastChild as Entity | null;
             (this.component.el.components.material as any).material.color = new Color(this.data.disabled?this.data.disabledColor:this.data.unselectedColor);
 
             // Create backing for getting click events.
             let backing = `
-            <a-circle radius="`+this.data.selectedRadius+`" segments="20"  position="0 0 -0.002" opacity="0.0001" transparent="true" 
+            <a-circle radius="`+this.data.selectedRadius+`" segments="10"  position="0 0 -0.002" opacity="0.0001" transparent="true" 
             shader="flat" class="`+this.data.intersectableClass+` no-yoga-layout"></a-circle>`;
             this.component.el.insertAdjacentHTML('beforeend',backing);
             // Set this if it is checked.
