@@ -31,7 +31,7 @@ export class UI extends UiElement {
             fps:{type:'number',default:45},
             intersectableClass:{default:'intersectable'},
             debug:{type:'boolean',default:false},
-            initDelay:{type:'int',default:1000},
+            initDelay:{type:'int',default:250},
         },
         /* Multiple */ false,
         /* Receive ticks */ true,
