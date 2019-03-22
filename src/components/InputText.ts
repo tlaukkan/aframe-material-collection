@@ -203,7 +203,7 @@ export class InputText extends UiElement {
         this.component.el.sceneEl!!.addEventListener('key-copy',this.keyCopy);
         this.component.el.sceneEl!!.addEventListener('key-paste',this.keyPaste);
         this.underline.setAttribute('height',0.008);
-        this.underline.setAttribute('color','#009688');
+        this.underline.setAttribute('color',this.colorTheme.secondary);
     }
     blur(){
         if(this.chars.length&&this.chars[this.chars.length-1].char==='.'&&this.data.type==="number"){
@@ -213,7 +213,7 @@ export class InputText extends UiElement {
         this.setSelection(0,0);
         setTimeout(()=>{
             clearInterval(this.carretInterval);
-            ((this.carret.getObject3D('mesh')as Mesh).material as MeshLambertMaterial).opacity = 0;
+            this.carret.object3D.visible = false;
             this.isFocused = false;
         });
         this.component.el.sceneEl!!.removeEventListener('mousedown',this.blurHandler);
@@ -225,7 +225,7 @@ export class InputText extends UiElement {
         this.component.el.sceneEl!!.removeEventListener('key-paste',this.keyPaste);
         this.ui.stoppedChanging(this.text.object3D.uuid);
         this.underline.setAttribute('height',0.005);
-        this.underline.setAttribute('color','#bfbfbf');
+        this.underline.setAttribute('color', this.colorTheme.primary);
     }
     pasteText(){
         (navigator as any).clipboard.readText()
@@ -373,11 +373,11 @@ export class InputText extends UiElement {
         let output = this.getValue();
         this.text.setAttribute('value',output);
         if(!this.chars.length){
-            this.text.setAttribute('color','#bfbfbf');
+            this.text.setAttribute('color',this.colorTheme.primary);
             this.text.setAttribute('value',this.data.placeHolder);
         }else{
             this.text.setAttribute('value',output);
-            this.text.setAttribute('color','#2f2f2f');
+            this.text.setAttribute('color',this.colorTheme.primaryOn);
         }
     }
     onMousemove(e: MouseEvent){
@@ -399,7 +399,7 @@ export class InputText extends UiElement {
         this.container.setAttribute('position',(this.data.width/2)+' 0 0');
 
         this.text = document.createElement('a-text');
-        this.text.setAttribute('color','#2f2f2f');
+        this.text.setAttribute('color',this.colorTheme.primary);
         this.text.setAttribute('anchor','center');
         this.text.setAttribute('align','left');
         this.text.setAttribute('position','0 0 0.003');
@@ -417,7 +417,7 @@ export class InputText extends UiElement {
         this.selectionHighlight.setAttribute('depth',0.00001);
         this.selectionHighlight.setAttribute('transparent',true);
         this.selectionHighlight.className = 'no-yoga-layout';
-        this.selectionHighlight.setAttribute('color','#009688');
+        this.selectionHighlight.setAttribute('color', "#aaaaaa");
         this.selectionHighlight.setAttribute('shader','flat');
         this.selectionHighlight.setAttribute('opacity',0.3);
         this.selectionHighlight.setAttribute('position','0 0 0.0005');
@@ -432,7 +432,7 @@ export class InputText extends UiElement {
         //this.carret.setAttribute('opacity',0);
         this.carret.setAttribute('shader','flat');
         this.carret.className = 'no-yoga-layout';
-        this.carret.setAttribute('color','#009688');
+        this.carret.setAttribute('color',this.colorTheme.primaryLight);
         this.carret.setAttribute('position',-(this.data.width/2)+' 0 0.001');
         this.text.appendChild(this.carret);
 
@@ -442,7 +442,7 @@ export class InputText extends UiElement {
         this.backing.setAttribute('width',this.data.width+0.1);
         this.backing.setAttribute('height',this.data.height);
         this.backing.setAttribute('depth',0.00001);
-        this.backing.setAttribute('color',this.data.backgroundColor);
+        this.backing.setAttribute('color',this.colorTheme.primaryDark);
         this.backing.setAttribute('opacity', 0.5);
         this.backing.setAttribute('transparent', true);
         this.backing.setAttribute('shader','flat');
@@ -456,7 +456,7 @@ export class InputText extends UiElement {
         this.underline.setAttribute('depth',0.00001);
         this.underline.className = 'no-yoga-layout';
         this.underline.setAttribute('shader','flat');
-        this.underline.setAttribute('color','#bfbfbf');
+        this.underline.setAttribute('color',this.colorTheme.primaryLight);
         this.underline.setAttribute('position','0 -0.072 0.001');
         this.container.appendChild(this.underline);
 

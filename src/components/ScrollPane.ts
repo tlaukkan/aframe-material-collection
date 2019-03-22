@@ -295,14 +295,14 @@ export class ScrollPane extends UiElement {
         this.rail = document.createElement('a-plane');
         this.rail.setAttribute('class','rail '+this.data.intersectableClass);
         this.rail.setAttribute('width',0.1);
-        this.rail.setAttribute('height',this.data.height);
+        this.rail.setAttribute('height',this.data.height + 0.02);
         this.rail.setAttribute('shader','flat');
         this.component.el.appendChild(this.rail);
 
         // Add scroll bar handle.
         this.handle = document.createElement('a-plane');
         this.handle.setAttribute('class','handle '+this.data.intersectableClass);
-        this.handle.setAttribute('width',0.1);
+        this.handle.setAttribute('width',0.08);
         this.handle.setAttribute('height',this.data.height);
         this.handle.setAttribute('color',this.colorTheme.primaryLight);
         this.handle.setAttribute('shader','flat');
