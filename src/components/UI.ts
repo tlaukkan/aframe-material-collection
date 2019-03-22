@@ -1,13 +1,13 @@
 import {Component, Entity} from "aframe";
 import {ComponentControllerDefinition} from "aframe-typescript-boilerplate/built";
 import {
-    Camera,
+    Camera, LinearEncoding,
     Mesh,
     MeshBasicMaterial, NearestMipMapLinearFilter,
     OrthographicCamera,
     PerspectiveCamera,
     Raycaster,
-    SphereGeometry,
+    SphereGeometry, sRGBEncoding, WebGLRenderer,
     WebGLRenderTarget
 } from "three";
 import {UiElement} from "./UiElement";
@@ -68,6 +68,8 @@ export class UI extends UiElement {
     }
 
     init(): void {
+        //renderer = new WebGLRenderer( { antialias: true } );
+
         this.setupBackDrop();
         if(!this.data.uiPanel){
             this.meshEl = this.setupUIPanel();
@@ -124,6 +126,11 @@ export class UI extends UiElement {
         if (!this.meshTextureSet) {
             // Set the texture to the ui panel mesh.
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).map = this.renderTarget.texture;
+            if (this.entity.sceneEl!!.renderer.gammaOutput) {
+                ((this.meshEl.getObject3D('mesh') as Mesh).material as any).map.encoding = sRGBEncoding;
+            } else {
+                ((this.meshEl.getObject3D('mesh') as Mesh).material as any).map.encoding = LinearEncoding;
+            }
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).transparent = true;
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).opacity = this.data.panelOpacity;
             ((this.meshEl.getObject3D('mesh') as Mesh).material as any).map.anisotropy = 16;
@@ -138,6 +145,7 @@ export class UI extends UiElement {
         this.component.el.object3D.traverse((child: any)=>{
             child.updateMatrixWorld();
         });
+
         let renderer = this.component.el.sceneEl!!.renderer;
         let vrModeEnabled = renderer.vr.enabled;
         renderer.vr.enabled = false;
@@ -150,6 +158,7 @@ export class UI extends UiElement {
         renderer.setClearColor(clearColor);
         renderer.setClearAlpha(clearAlpha);
         renderer.vr.enabled = vrModeEnabled;
+
         this.lastRenderTime = time;
         if(!this.isRendering){
             this.stoppedRendering = true;
